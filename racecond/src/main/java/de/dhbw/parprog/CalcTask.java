@@ -11,9 +11,9 @@ public class CalcTask implements ProcessWithPipe {
     public void main(final Pipe pipe) {
         try {
             Thread.sleep(1000);
+            new PrintStream(pipe.getOut()).println(42);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        new PrintStream(pipe.getOut()).println(42);
     }
 }
