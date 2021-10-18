@@ -1,5 +1,9 @@
 @file:Suppress("SpellCheckingInspection")
 
+plugins {
+    application
+}
+
 dependencies {
     implementation(":processemu")
 }

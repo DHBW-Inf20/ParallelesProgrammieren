@@ -1,2 +1,8 @@
+@file:Suppress("SpellCheckingInspection")
+
 rootProject.name = "ParallelesProgrammieren"
-include("bootstrap", "racecond")
+include(
+    "bootstrap",
+    "racecond",
+    "smartbank",
+)

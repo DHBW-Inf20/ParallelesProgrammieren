@@ -1,6 +1,7 @@
 @file:Suppress("SpellCheckingInspection")
 
 plugins {
+    application
     id("io.freefair.lombok") version "6.2.0"
 }
 
