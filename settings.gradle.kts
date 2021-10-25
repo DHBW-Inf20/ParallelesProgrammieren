@@ -5,4 +5,8 @@ include(
     "bootstrap",
     "racecond",
     "smartbank",
+    "threadpool",
+    "dirsize2",
+    "mapreduce",
+    "reactivemapreduce",
 )
