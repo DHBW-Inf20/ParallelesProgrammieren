@@ -9,4 +9,5 @@ include(
     "dirsize2",
     "mapreduce",
     "reactivemapreduce",
+    "actors",
 )
