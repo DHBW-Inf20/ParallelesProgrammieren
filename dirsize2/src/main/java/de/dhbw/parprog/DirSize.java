@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -52,7 +51,7 @@ public class DirSize {
                 });
     }
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Benötigter Parameter: Startverzeichnis");
             System.exit(1);
@@ -62,7 +61,7 @@ public class DirSize {
             System.out.println("Dies ist kein Verzeichnis!");
             System.exit(1);
         }
-        var result = dirStats(startDir).get();
+        var result = dirStats(startDir).join();
         System.out.println(result.fileCount + " Dateien, " + result.totalSize + " Bytes.");
     }
 }

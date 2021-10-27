@@ -9,7 +9,6 @@ import akka.actor.typed.javadsl.Routers;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.CyclicBarrier;
 import java.util.stream.IntStream;
 
 public class ActorCalculation {
@@ -36,12 +35,6 @@ public class ActorCalculation {
                 .map(CompletionStage::toCompletableFuture)
                 .map(CompletableFuture::join)
                 .orElse(0);
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         system.terminate();
         system.getWhenTerminated()
