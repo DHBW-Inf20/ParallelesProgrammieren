@@ -12,10 +12,12 @@
             <option value="$PROJECT_DIR$/actordirsize" />
             <option value="$PROJECT_DIR$/actors" />
             <option value="$PROJECT_DIR$/bootstrap" />
+            <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/dirsize2" />
             <option value="$PROJECT_DIR$/mapreduce" />
             <option value="$PROJECT_DIR$/racecond" />
             <option value="$PROJECT_DIR$/reactivemapreduce" />
+            <option value="$PROJECT_DIR$/shared" />
             <option value="$PROJECT_DIR$/smartbank" />
             <option value="$PROJECT_DIR$/threadpool" />
           </set>

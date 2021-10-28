@@ -1,11 +1,8 @@
 @file:Suppress("SpellCheckingInspection")
 
 plugins {
+    `paralleles-programmieren`
     application
-}
-
-dependencies {
-    implementation(":processemu")
 }
 
 application {

@@ -2,6 +2,7 @@
 
 rootProject.name = "ParallelesProgrammieren"
 include(
+    "shared",
     "bootstrap",
     "racecond",
     "smartbank",
