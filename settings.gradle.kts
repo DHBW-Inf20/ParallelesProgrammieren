@@ -10,4 +10,5 @@ include(
     "mapreduce",
     "reactivemapreduce",
     "actors",
+    "actordirsize",
 )

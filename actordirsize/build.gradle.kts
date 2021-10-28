@@ -5,5 +5,5 @@ plugins {
 }
 
 application {
-    mainClass.set("de.dhbw.parprog.ActorCalculation")
+    mainClass.set("de.dhbw.parprog.ActorDirSize")
 }
