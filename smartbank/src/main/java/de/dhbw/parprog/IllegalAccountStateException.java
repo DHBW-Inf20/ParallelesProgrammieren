@@ -1,3 +1,3 @@
 package de.dhbw.parprog;
 
-public class IllegalAccountStateException extends RuntimeException {}
+public final class IllegalAccountStateException extends RuntimeException {}

@@ -4,12 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNullElseGet;
 import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
-public class DirSize {
+public final class DirSize {
 
     /**
      * Hilsfmethode: Wandelt eine Liste von Futures (desselben Typs) in ein einzelnes
@@ -23,31 +24,29 @@ public class DirSize {
         return allOf(futures.toArray(new CompletableFuture[0]))
                 .thenApply(v -> futures.stream()
                         .map(CompletableFuture::join)
-                        .collect(Collectors.<T>toList())
+                        .collect(toUnmodifiableList())
                 );
     }
 
     public static CompletableFuture<DirStats> dirStats(File dir) {
         return CompletableFuture
-                .supplyAsync(() -> dir.isDirectory() ? dir.listFiles() : new File[0])
+                .supplyAsync(() -> requireNonNullElseGet(dir.listFiles(), () -> new File[0]))
                 .thenCompose(dirContent -> {
                     var recursiveResults = new ArrayList<CompletableFuture<DirStats>>();
 
-                    for (var content : dirContent) {
-                        if (content.isDirectory() && !content.getName().equals(".")) {
-                            recursiveResults.add(dirStats(content));
-                        } else if (content.isFile()) {
-                            recursiveResults.add(completedFuture(new DirStats(1, content.length())));
+                    for (var element : dirContent) {
+                        if (element.isDirectory() && !element.getName().equals(".")) {
+                            recursiveResults.add(dirStats(element));
+                        } else if (element.isFile()) {
+                            recursiveResults.add(completedFuture(new DirStats(1, element.length())));
                         }
                     }
 
-                    return sequence(recursiveResults).thenApply(list -> list.stream()
-                            .reduce((accumulated, next) -> new DirStats(
-                                    accumulated.fileCount + next.fileCount,
-                                    accumulated.totalSize + next.totalSize
-                            ))
-                            .orElse(new DirStats())
-                    );
+                    return sequence(recursiveResults)
+                            .thenApply(list -> list.stream()
+                                    .reduce(DirStats::add)
+                                    .orElse(new DirStats())
+                            );
                 });
     }
 
@@ -64,4 +63,7 @@ public class DirSize {
         var result = dirStats(startDir).join();
         System.out.println(result.fileCount + " Dateien, " + result.totalSize + " Bytes.");
     }
+
+
+    private DirSize() {}
 }

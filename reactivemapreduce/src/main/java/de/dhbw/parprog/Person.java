@@ -1,7 +1,7 @@
 package de.dhbw.parprog;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class Person {
+public final class Person {
     public final String name, vorname;
     public final int alter;
     public final boolean male;

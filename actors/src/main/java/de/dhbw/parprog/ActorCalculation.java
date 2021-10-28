@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.IntStream;
 
-public class ActorCalculation {
+public final class ActorCalculation {
 
     public static int doCalculation() {
         var system = ActorSystem.create(
@@ -45,9 +45,11 @@ public class ActorCalculation {
         return result;
     }
 
-
     public static void main(String[] args) {
         System.out.println("Important calculation - with actors");
         System.out.println("The result is " + ActorCalculation.doCalculation());
     }
+
+
+    private ActorCalculation() {}
 }

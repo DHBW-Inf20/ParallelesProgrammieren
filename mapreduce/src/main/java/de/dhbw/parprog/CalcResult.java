@@ -1,6 +1,6 @@
 package de.dhbw.parprog;
 
-public class CalcResult {
+public final class CalcResult {
     public final double avgAge;
     public final int maxLen;
     public final int maleCount;

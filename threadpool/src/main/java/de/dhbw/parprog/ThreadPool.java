@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class ThreadPool {
+public final class ThreadPool {
 
     public static int doCalculation() {
         var pool = Executors.newFixedThreadPool(5);
@@ -19,8 +19,7 @@ public class ThreadPool {
             }));
         }
 
-        var result = futures
-                .stream()
+        var result = futures.stream()
                 .mapToInt(future -> {
                     try {
                         return future.get();
@@ -40,4 +39,7 @@ public class ThreadPool {
         var result = doCalculation();
         System.out.println("Result: " + result);
     }
+
+
+    private ThreadPool() {}
 }

@@ -1,11 +1,11 @@
 package de.dhbw.parprog;
 
-import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class PersonArchive {
-    private static final List<Person> personen = Arrays.asList(
+public final class PersonArchive {
+
+    private static final List<Person> personen = List.of(
             new Person("Dirk", "Ostermann", 31, true),
             new Person("Marie", "Brandt", 55, false),
             new Person("Anja", "Baumgaertner", 72, false),
@@ -17,6 +17,7 @@ public class PersonArchive {
             new Person("Bernd", "Schiffer", 35, true),
             new Person("Susanne", "Moeller", 43, false)
     );
+
     private static int personenPtr = 0;
 
     public static Person getPerson() {
@@ -35,4 +36,7 @@ public class PersonArchive {
             }
         }
     }
+
+
+    private PersonArchive() {}
 }

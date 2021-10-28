@@ -1,6 +1,6 @@
 package de.dhbw.parprog;
 
-public class DirStats {
+public final class DirStats {
     public final int fileCount;
     public final long totalSize;
 
@@ -11,6 +11,10 @@ public class DirStats {
     public DirStats(int fileCount, long totalSize) {
         this.fileCount = fileCount;
         this.totalSize = totalSize;
+    }
+
+    public DirStats add(DirStats other) {
+        return new DirStats(this.fileCount + other.fileCount, this.totalSize + other.totalSize);
     }
 
     @Override

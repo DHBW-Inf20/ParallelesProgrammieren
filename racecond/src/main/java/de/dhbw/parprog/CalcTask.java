@@ -5,7 +5,7 @@ import de.dhbw.parprog.processemu.ProcessWithPipe;
 
 import java.io.PrintStream;
 
-public class CalcTask implements ProcessWithPipe {
+public final class CalcTask implements ProcessWithPipe {
 
     @Override
     public void main(final Pipe pipe) {

@@ -15,7 +15,6 @@ subprojects {
     dependencies {
         val junitGroup = "org.junit.jupiter"
         val junitVersion = "5.8.1"
-
         testImplementation(junitGroup, name = "junit-jupiter-api", junitVersion)
         testRuntimeOnly(junitGroup, name = "junit-jupiter-engine", junitVersion)
         testImplementation(group = "org.assertj", name = "assertj-core", version = "3.21.0")

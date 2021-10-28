@@ -6,7 +6,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.SubmissionPublisher;
 import java.util.concurrent.TimeUnit;
 
-public class ReactiveMapReduce {
+public final class ReactiveMapReduce {
 
     @SuppressWarnings({"BusyWait", "ResultOfMethodCallIgnored"})
     public static void main(String[] args) throws InterruptedException {
@@ -67,4 +67,7 @@ public class ReactiveMapReduce {
         ForkJoinPool.commonPool().shutdown();
         ForkJoinPool.commonPool().awaitTermination(1, TimeUnit.SECONDS);
     }
+
+
+    private ReactiveMapReduce() {}
 }

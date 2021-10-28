@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CalcTest {
+public class ActorsTest {
+
     private static final ActorTestKit testKit = ActorTestKit.create();
 
     @AfterAll

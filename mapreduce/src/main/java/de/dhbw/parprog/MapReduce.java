@@ -1,17 +1,17 @@
 package de.dhbw.parprog;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
-public class MapReduce {
+public final class MapReduce {
 
     /**
      * Hilsfmethode: Wandelt eine Liste von Futures (desselben Typs) in ein einzelnes
@@ -25,20 +25,16 @@ public class MapReduce {
         return allOf(futures.toArray(new CompletableFuture[0]))
                 .thenApply(v -> futures.stream()
                         .map(CompletableFuture::join)
-                        .collect(Collectors.<T>toList())
+                        .collect(toUnmodifiableList())
                 );
     }
 
     public static CompletableFuture<CalcResult> doAnalysis() {
         var futures = IntStream.range(0, 4)
-                .mapToObj(i -> supplyAsync(() -> {
-                    var persons = new ArrayList<Person>();
-                    Person p;
-                    while ((p = PersonArchive.getPerson()) != null) {
-                        persons.add(p);
-                    }
-                    return persons;
-                }))
+                .mapToObj(i -> supplyAsync(() -> Stream
+                        .iterate(PersonArchive.getPerson(), Objects::nonNull, prev -> PersonArchive.getPerson())
+                        .collect(toUnmodifiableList())
+                ))
                 .collect(toUnmodifiableList());
 
         var dataFuture = sequence(futures)
@@ -72,4 +68,7 @@ public class MapReduce {
                         new CalcResult(avgAgeFuture.join(), maxLenFuture.join(), maleCountFuture.join())
                 );
     }
+
+
+    private MapReduce() {}
 }
