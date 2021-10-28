@@ -9,10 +9,10 @@ import java.time.Duration;
 public final class ActorDirSize {
 
     public static DirStats dirStats(File dir) {
-        var system = ActorSystem.create(DirSizeActor.create(), "dir-size-system");
-        var result = AskPattern.<DirSizeActor.Message, DirSizeActor.Response>ask(
+        var system = ActorSystem.create(DirSizeBehavior.create(), "dir-size-system");
+        var result = AskPattern.<DirSizeBehavior.Message, DirSizeBehavior.Response>ask(
                         system,
-                        responseReceiver -> new DirSizeActor.Request(dir, responseReceiver),
+                        responseReceiver -> new DirSizeBehavior.Request(dir, responseReceiver),
                         Duration.ofSeconds(10),
                         system.scheduler()
                 )

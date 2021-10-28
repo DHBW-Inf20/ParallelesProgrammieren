@@ -17,20 +17,20 @@ public final class ActorCalculation {
         var system = ActorSystem.create(
                 Routers.pool(
                         5,
-                        Behaviors.supervise(CalcActor.create())
+                        Behaviors.supervise(CalculationBehavior.create())
                                 .onFailure(SupervisorStrategy.restart())
                 ),
                 "calc-pool-system"
         );
 
         int result = IntStream.range(1, 11)
-                .mapToObj(input -> AskPattern.<CalcActor.Request, CalcActor.Response>ask(
+                .mapToObj(input -> AskPattern.<CalculationBehavior.Request, CalculationBehavior.Response>ask(
                         system,
-                        responseReceiver -> new CalcActor.Request(input, responseReceiver),
+                        responseReceiver -> new CalculationBehavior.Request(input, responseReceiver),
                         Duration.ofSeconds(3),
                         system.scheduler()
                 ))
-                .map(response -> response.thenApply(CalcActor.Response::getOutput))
+                .map(response -> response.thenApply(CalculationBehavior.Response::getOutput))
                 .reduce((reducedResponses, nextResponse) -> reducedResponses.thenCombine(nextResponse, Integer::sum))
                 .map(CompletionStage::toCompletableFuture)
                 .map(CompletableFuture::join)

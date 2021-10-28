@@ -23,9 +23,9 @@ public class ActorsTest {
 
     @Test
     public void actorReturnsCorrectResult() {
-        var calc = testKit.spawn(CalcActor.create(), "calc");
-        TestProbe<CalcActor.Response> probe = testKit.createTestProbe();
-        calc.tell(new CalcActor.Request(1, probe.ref()));
+        var calc = testKit.spawn(CalculationBehavior.create(), "calc");
+        var probe = testKit.<CalculationBehavior.Response>createTestProbe();
+        calc.tell(new CalculationBehavior.Request(1, probe.ref()));
         var response = probe.receiveMessage();
         testKit.stop(calc);
         assertThat(response.getOutput()).isEqualTo(42);

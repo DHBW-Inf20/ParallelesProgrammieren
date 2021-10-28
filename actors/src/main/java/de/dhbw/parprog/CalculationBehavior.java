@@ -9,7 +9,7 @@ import akka.actor.typed.javadsl.Receive;
 import static akka.actor.typed.javadsl.Behaviors.same;
 import static akka.actor.typed.javadsl.Behaviors.setup;
 
-public final class CalcActor extends AbstractBehavior<CalcActor.Request> {
+public final class CalculationBehavior extends AbstractBehavior<CalculationBehavior.Request> {
 
     public static final class Request {
         private final int input;
@@ -35,17 +35,17 @@ public final class CalcActor extends AbstractBehavior<CalcActor.Request> {
 
 
     public static Behavior<Request> create() {
-        return setup(CalcActor::new);
+        return setup(CalculationBehavior::new);
     }
 
-    private CalcActor(ActorContext<Request> context) {
+    private CalculationBehavior(ActorContext<Request> context) {
         super(context);
     }
 
     @Override
     public Receive<Request> createReceive() {
         return newReceiveBuilder()
-                .onMessage(Request.class, CalcActor::calculate)
+                .onMessage(Request.class, CalculationBehavior::calculate)
                 .build();
     }
 

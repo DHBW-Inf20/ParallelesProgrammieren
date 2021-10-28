@@ -11,7 +11,7 @@ import java.io.File;
 import static akka.actor.typed.javadsl.Behaviors.*;
 import static java.util.Objects.requireNonNullElseGet;
 
-public final class DirSizeActor extends AbstractBehavior<DirSizeActor.Message> {
+public final class DirSizeBehavior extends AbstractBehavior<DirSizeBehavior.Message> {
 
     public interface Message {}
 
@@ -39,10 +39,10 @@ public final class DirSizeActor extends AbstractBehavior<DirSizeActor.Message> {
     private DirStats accumulatedStats = new DirStats();
 
     public static Behavior<Message> create() {
-        return setup(DirSizeActor::new);
+        return setup(DirSizeBehavior::new);
     }
 
-    private DirSizeActor(ActorContext<Message> context) {
+    private DirSizeBehavior(ActorContext<Message> context) {
         super(context);
     }
 
@@ -65,7 +65,7 @@ public final class DirSizeActor extends AbstractBehavior<DirSizeActor.Message> {
             if (element.isDirectory() && !element.getName().equals(".")) {
                 pendingChildResponses++;
                 // spawn child with self as responseReceiver
-                getContext().spawnAnonymous(DirSizeActor.create())
+                getContext().spawnAnonymous(DirSizeBehavior.create())
                         .tell(new Request(element, getContext().getSelf()));
             } else if (element.isFile()) {
                 addToAccumulatedStats(new DirStats(1, element.length()));
