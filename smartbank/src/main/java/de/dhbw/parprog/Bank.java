@@ -11,7 +11,7 @@ public final class Bank {
      * @return das neue Konto
      */
     public synchronized Account createAccount() {
-        return new Account(idCounter++, 0);
+        return new Account(idCounter++);
     }
 
     /**
@@ -89,11 +89,10 @@ public final class Bank {
 
 
         private final long id;
-        private long balance;
+        private long balance = 0;
 
-        private Account(long id, long balance) {
+        private Account(long id) {
             this.id = id;
-            this.balance = balance;
         }
 
         private synchronized long getBalance() {

@@ -1,33 +1,17 @@
 package de.dhbw.parprog;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static de.dhbw.parprog.CompletableFutures.sequence;
 import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
 public final class MapReduce {
-
-    /**
-     * Hilsfmethode: Wandelt eine Liste von Futures (desselben Typs) in ein einzelnes
-     * Future einer Liste der Ergebnisse
-     *
-     * @param futures Liste der Futures
-     * @param <T>     Gemeinsamer Typ
-     * @return Future der Ergebnisliste
-     */
-    private static <T> CompletableFuture<List<T>> sequence(List<CompletableFuture<T>> futures) {
-        return allOf(futures.toArray(new CompletableFuture[0]))
-                .thenApply(v -> futures.stream()
-                        .map(CompletableFuture::join)
-                        .collect(toUnmodifiableList())
-                );
-    }
 
     public static CompletableFuture<CalcResult> doAnalysis() {
         var futures = IntStream.range(0, 4)

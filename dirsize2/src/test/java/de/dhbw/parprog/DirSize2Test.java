@@ -6,6 +6,7 @@ import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class DirSize2Test {
 
     @Test

@@ -1,7 +1,6 @@
 package de.dhbw.parprog;
 
 import akka.actor.testkit.typed.javadsl.ActorTestKit;
-import akka.actor.testkit.typed.javadsl.TestProbe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
