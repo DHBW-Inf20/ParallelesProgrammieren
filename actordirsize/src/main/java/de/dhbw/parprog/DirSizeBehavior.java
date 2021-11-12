@@ -50,13 +50,13 @@ public final class DirSizeBehavior extends AbstractBehavior<DirSizeBehavior.Mess
     public Receive<Message> createReceive() {
         return newReceiveBuilder()
                 .onMessage(Request.class, this::processFirstRequest)
-                .onMessage(Response.class, this::processChildResponse)
                 .build();
     }
 
     private Behavior<Message> processFirstRequest(Request request) {
         if (parent != null) {
-            return unhandled(); // only process first request
+            // can not happen, behavior changes after first request
+            throw new IllegalStateException("received two requests");
         }
         parent = request.responseReceiver;
 
@@ -71,25 +71,27 @@ public final class DirSizeBehavior extends AbstractBehavior<DirSizeBehavior.Mess
                 addToAccumulatedStats(new DirStats(1, element.length()));
             }
         }
-        return respondToParentIfDone();
+        return respondToParentIfDone()
+                ? stopped()
+                : newReceiveBuilder().onMessage(Response.class, this::processChildResponse).build();
     }
 
     private Behavior<Message> processChildResponse(Response response) {
         pendingChildResponses--;
         addToAccumulatedStats(response.dirStats);
-        return respondToParentIfDone();
+        return respondToParentIfDone() ? stopped() : same();
     }
 
     private void addToAccumulatedStats(DirStats dirStats) {
         accumulatedStats = accumulatedStats.add(dirStats);
     }
 
-    private Behavior<Message> respondToParentIfDone() {
+    private boolean respondToParentIfDone() {
         if (pendingChildResponses == 0) {
             parent.tell(new Response(accumulatedStats));
-            return stopped();
+            return true;
         } else {
-            return same();
+            return false;
         }
     }
 }
